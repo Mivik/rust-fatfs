@@ -223,15 +223,15 @@ impl DirFileEntryData {
         self.reserved_0 & (1 << 4) != 0
     }
 
-    fn created(&self) -> DateTime {
+    pub(crate) fn created(&self) -> DateTime {
         DateTime::decode(self.create_date, self.create_time_1, self.create_time_0)
     }
 
-    fn accessed(&self) -> Date {
+    pub(crate) fn accessed(&self) -> Date {
         Date::decode(self.access_date)
     }
 
-    fn modified(&self) -> DateTime {
+    pub(crate) fn modified(&self) -> DateTime {
         DateTime::decode(self.modify_date, self.modify_time, 0)
     }
 
@@ -704,7 +704,7 @@ impl<'a, IO: ReadWriteSeek, TP, OCC: OemCpConverter> DirEntry<'a, IO, TP, OCC> {
         }
     }
 
-    pub(crate) fn eq_name(&self, name: &str) -> bool {
+    pub fn eq_name(&self, name: &str) -> bool {
         #[cfg(feature = "lfn")]
         {
             if self.eq_name_lfn(name) {

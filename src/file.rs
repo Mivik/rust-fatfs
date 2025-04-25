@@ -175,7 +175,31 @@ impl<'a, IO: ReadWriteSeek, TP, OCC> File<'a, IO, TP, OCC> {
         }
     }
 
-    fn size(&self) -> Option<u32> {
+    /// Get the access time of this file.
+    pub fn accessed(&self) -> Date {
+        match self.entry {
+            Some(ref e) => e.inner().accessed(),
+            None => Date::decode(0),
+        }
+    }
+
+    /// Get the creation time of this file.
+    pub fn created(&self) -> DateTime {
+        match self.entry {
+            Some(ref e) => e.inner().created(),
+            None => DateTime::decode(0, 0, 0),
+        }
+    }
+
+    /// Get the modification time of this file.
+    pub fn modified(&self) -> DateTime {
+        match self.entry {
+            Some(ref e) => e.inner().modified(),
+            None => DateTime::decode(0, 0, 0),
+        }
+    }
+
+    pub fn size(&self) -> Option<u32> {
         match self.entry {
             Some(ref e) => e.inner().size(),
             None => None,

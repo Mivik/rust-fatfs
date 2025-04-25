@@ -433,6 +433,11 @@ impl<IO: Read + Write + Seek, TP, OCC> FileSystem<IO, TP, OCC> {
         self.bpb.volume_id
     }
 
+    /// Returns the bytes per sector.
+    pub fn bytes_per_sector(&self) -> u16 {
+        self.bpb.bytes_per_sector
+    }
+
     /// Returns a volume label from BPB in the Boot Sector as byte array slice.
     ///
     /// Label is encoded in the OEM codepage.

@@ -196,6 +196,15 @@ impl<'a, IO: ReadWriteSeek, TP: TimeProvider, OCC: OemCpConverter> Dir<'a, IO, T
         }
     }
 
+    /// Returns the underlying file object if the directory stream is not a root
+    /// directory in FAT12 & FAT16.
+    pub fn as_file(&self) -> Option<&File<'a, IO, TP, OCC>> {
+        match &self.stream {
+            DirRawStream::File(file) => Some(file),
+            DirRawStream::Root(_) => None,
+        }
+    }
+
     /// Opens existing subdirectory.
     ///
     /// `path` is a '/' separated directory path relative to self directory.
